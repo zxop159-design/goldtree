@@ -1,0 +1,364 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>골드트리 주식회사 | 금융투자</title>
+<style>
+  :root {
+    --color-bg: #ffffff;
+    --color-bg-secondary: #f7f7f5;
+    --color-text: #1a1a18;
+    --color-text-secondary: #6b6b67;
+    --color-border: rgba(0,0,0,0.12);
+    --color-border-strong: rgba(0,0,0,0.25);
+    --color-gold: #BA7517;
+    --color-gold-dark: #854F0B;
+    --color-gold-deeper: #633806;
+    --color-gold-light: #FAEEDA;
+    --color-gold-mid: #EF9F27;
+    --radius-md: 8px;
+    --radius-lg: 12px;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { font-family: -apple-system, BlinkMacSystemFont, 'Pretendard', 'Apple SD Gothic Neo', sans-serif; background: var(--color-bg); color: var(--color-text); font-size: 15px; line-height: 1.6; }
+
+  /* NAV */
+  .nav { display: flex; justify-content: space-between; align-items: center; padding: 1rem 2.5rem; border-bottom: 0.5px solid var(--color-border); background: var(--color-bg); position: sticky; top: 0; z-index: 100; }
+  .nav-logo { display: flex; align-items: center; gap: 9px; text-decoration: none; color: var(--color-text); }
+  .nav-logo svg { width: 28px; height: 28px; }
+  .nav-logo-text { font-size: 15px; font-weight: 600; letter-spacing: -0.3px; }
+  .nav-logo-text span { color: var(--color-text-secondary); font-weight: 400; font-size: 12px; margin-left: 5px; }
+  .nav-links { display: flex; gap: 1.75rem; list-style: none; }
+  .nav-links a { font-size: 13px; color: var(--color-text-secondary); text-decoration: none; transition: color 0.15s; }
+  .nav-links a:hover, .nav-links a.active { color: var(--color-text); font-weight: 500; }
+
+  /* PAGES */
+  .page { display: none; }
+  .page.active { display: block; }
+
+  /* TAG */
+  .tag { display: inline-block; font-size: 11px; font-weight: 600; letter-spacing: 0.6px; color: var(--color-gold-dark); border: 0.5px solid var(--color-gold-mid); border-radius: 99px; padding: 3px 11px; margin-bottom: 1.1rem; background: var(--color-gold-light); text-transform: uppercase; }
+
+  /* HERO */
+  .hero { padding: 4.5rem 2.5rem 3.5rem; max-width: 860px; }
+  .hero h1 { font-size: 34px; font-weight: 600; line-height: 1.25; margin-bottom: 1rem; letter-spacing: -0.7px; }
+  .hero h1 em { font-style: normal; color: var(--color-gold-dark); }
+  .hero p { font-size: 15px; color: var(--color-text-secondary); line-height: 1.8; max-width: 520px; margin-bottom: 1.75rem; }
+  .hero-actions { display: flex; gap: 10px; margin-bottom: 3rem; }
+  .btn-primary { font-size: 13px; padding: 9px 20px; border-radius: var(--radius-md); background: var(--color-gold-deeper); color: var(--color-gold-light); border: none; cursor: pointer; font-family: inherit; font-weight: 500; transition: opacity 0.15s; }
+  .btn-primary:hover { opacity: 0.85; }
+  .btn-outline { font-size: 13px; padding: 9px 20px; border-radius: var(--radius-md); background: transparent; color: var(--color-text); border: 0.5px solid var(--color-border-strong); cursor: pointer; font-family: inherit; transition: background 0.15s; }
+  .btn-outline:hover { background: var(--color-bg-secondary); }
+
+  /* STATS */
+  .stats-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
+  .stat-card { background: var(--color-bg-secondary); border-radius: var(--radius-md); padding: 1.1rem 1.25rem; }
+  .stat-label { font-size: 11px; color: var(--color-text-secondary); margin-bottom: 5px; letter-spacing: 0.3px; }
+  .stat-value { font-size: 22px; font-weight: 600; letter-spacing: -0.5px; }
+  .stat-sub { font-size: 11px; color: var(--color-text-secondary); margin-top: 3px; }
+
+  /* SECTION */
+  .section { padding: 3rem 2.5rem; border-top: 0.5px solid var(--color-border); }
+  .section-header { margin-bottom: 1.75rem; }
+  .section-header h2 { font-size: 22px; font-weight: 600; letter-spacing: -0.4px; margin-bottom: 6px; }
+  .section-header p { font-size: 13px; color: var(--color-text-secondary); }
+
+  /* ABOUT */
+  .about-intro { background: var(--color-bg-secondary); border-radius: var(--radius-lg); padding: 1.75rem; margin-bottom: 1.25rem; border-left: 3px solid var(--color-gold-mid); }
+  .about-intro .quote { font-size: 17px; font-weight: 600; color: var(--color-text); line-height: 1.65; margin-bottom: 0.85rem; }
+  .about-intro .quote em { font-style: normal; color: var(--color-gold-dark); }
+  .about-intro p { font-size: 13px; color: var(--color-text-secondary); line-height: 1.8; }
+  .about-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+  .about-card { background: var(--color-bg); border: 0.5px solid var(--color-border); border-radius: var(--radius-lg); padding: 1.25rem; }
+  .about-card-icon { width: 32px; height: 32px; border-radius: var(--radius-md); border: 0.5px solid var(--color-border); display: flex; align-items: center; justify-content: center; margin-bottom: 0.85rem; color: var(--color-gold); font-size: 16px; }
+  .about-card h3 { font-size: 14px; font-weight: 600; margin-bottom: 0.4rem; }
+  .about-card p { font-size: 12px; color: var(--color-text-secondary); line-height: 1.7; }
+
+  /* PORTFOLIO */
+  .port-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; margin-bottom: 1.5rem; }
+  .port-card { background: var(--color-bg); border: 0.5px solid var(--color-border); border-radius: var(--radius-lg); padding: 1.1rem 1.25rem; }
+  .port-top { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 0.75rem; }
+  .port-name { font-size: 14px; font-weight: 600; }
+  .port-desc { font-size: 11px; color: var(--color-text-secondary); margin-top: 2px; }
+  .badge-up { font-size: 11px; padding: 3px 9px; border-radius: 99px; background: #EAF3DE; color: #3B6D11; font-weight: 500; white-space: nowrap; }
+  .badge-down { font-size: 11px; padding: 3px 9px; border-radius: 99px; background: #FCEBEB; color: #A32D2D; font-weight: 500; white-space: nowrap; }
+  .badge-hold { font-size: 11px; padding: 3px 9px; border-radius: 99px; background: var(--color-gold-light); color: var(--color-gold-dark); font-weight: 500; white-space: nowrap; }
+  .port-bar-wrap { height: 4px; background: var(--color-bg-secondary); border-radius: 99px; margin-bottom: 8px; }
+  .port-bar-fill { height: 100%; border-radius: 99px; background: var(--color-gold); }
+  .port-bottom { display: flex; justify-content: space-between; align-items: center; }
+  .port-meta { font-size: 12px; color: var(--color-text-secondary); }
+  .port-val { font-size: 13px; font-weight: 600; }
+  .port-placeholder { border-style: dashed !important; display: flex; align-items: center; justify-content: center; min-height: 100px; }
+  .port-placeholder span { font-size: 12px; color: var(--color-text-secondary); }
+
+  /* ALLOC */
+  .alloc-section { background: var(--color-bg-secondary); border-radius: var(--radius-lg); padding: 1.5rem; }
+  .alloc-title { font-size: 13px; font-weight: 600; margin-bottom: 1.1rem; }
+  .alloc-row { display: flex; align-items: center; gap: 10px; margin-bottom: 10px; }
+  .alloc-name { font-size: 13px; color: var(--color-text-secondary); width: 110px; flex-shrink: 0; }
+  .alloc-bar-wrap { flex: 1; height: 5px; background: rgba(0,0,0,0.08); border-radius: 99px; }
+  .alloc-bar-fill { height: 100%; border-radius: 99px; }
+  .alloc-pct { font-size: 12px; font-weight: 600; width: 34px; text-align: right; }
+
+  /* NOTICE */
+  .notice { background: var(--color-gold-light); border: 0.5px solid var(--color-gold-mid); border-radius: var(--radius-md); padding: 0.85rem 1rem; margin-bottom: 1.5rem; font-size: 12px; color: var(--color-gold-dark); }
+
+  /* FOOTER */
+  .footer { padding: 1.5rem 2.5rem; border-top: 0.5px solid var(--color-border); display: flex; justify-content: space-between; align-items: center; }
+  .footer p { font-size: 12px; color: var(--color-text-secondary); }
+
+  @media (max-width: 600px) {
+    .nav { padding: 0.85rem 1.25rem; }
+    .hero { padding: 3rem 1.25rem 2.5rem; }
+    .hero h1 { font-size: 26px; }
+    .stats-grid, .about-grid, .port-grid { grid-template-columns: 1fr; }
+    .section { padding: 2rem 1.25rem; }
+    .footer { flex-direction: column; gap: 6px; align-items: flex-start; }
+  }
+</style>
+</head>
+<body>
+
+<nav class="nav">
+  <a class="nav-logo" href="#" onclick="showPage('home'); return false;">
+    <svg viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <rect x="12" y="18" width="4" height="8" rx="1.2" fill="#BA7517"/>
+      <rect x="9.5" y="23.5" width="9" height="2.2" rx="1" fill="#854F0B"/>
+      <ellipse cx="14" cy="11" rx="7.5" ry="7.5" fill="#EF9F27"/>
+      <ellipse cx="14" cy="11" rx="4.8" ry="4.8" fill="#BA7517"/>
+      <line x1="14" y1="18" x2="14" y2="11" stroke="#633806" stroke-width="1.3"/>
+      <line x1="14" y1="13" x2="9.5" y2="8.5" stroke="#633806" stroke-width="1.1"/>
+      <line x1="14" y1="12" x2="18.5" y2="8" stroke="#633806" stroke-width="1.1"/>
+    </svg>
+    <div class="nav-logo-text">골드트리 주식회사 <span>금융투자</span></div>
+  </a>
+  <ul class="nav-links">
+    <li><a href="#" class="active" onclick="showPage('home'); return false;">홈</a></li>
+    <li><a href="#" onclick="showPage('about'); return false;">회사 소개</a></li>
+    <li><a href="#" onclick="showPage('portfolio'); return false;">포트폴리오</a></li>
+  </ul>
+</nav>
+
+<!-- ===== 홈 ===== -->
+<div id="home" class="page active">
+  <div class="hero">
+    <div class="tag">해외투자 전문 가족 법인</div>
+    <h1>단단한 뿌리로<br><em>글로벌 시장</em>에 뻗어 나갑니다</h1>
+    <p>골드트리 주식회사는 장기적으로 성장하는 기업에 집중 투자합니다.<br>미국·나스닥 우량 자산을 중심으로 흔들리지 않는 자산을 만들어 갑니다.</p>
+    <div class="hero-actions">
+      <button class="btn-primary" onclick="showPage('portfolio')">포트폴리오 보기</button>
+      <button class="btn-outline" onclick="showPage('about')">회사 소개</button>
+    </div>
+    <div class="stats-grid">
+      <div class="stat-card">
+        <div class="stat-label">핵심 투자 지역</div>
+        <div class="stat-value">미국</div>
+        <div class="stat-sub">나스닥 · S&amp;P500 중심</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-label">투자 철학</div>
+        <div class="stat-value">장기</div>
+        <div class="stat-sub">성장 기업 집중 보유</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-label">법인 구조</div>
+        <div class="stat-value">가족</div>
+        <div class="stat-sub">세제 효율적 자산 운용</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ===== 회사 소개 ===== -->
+<div id="about" class="page">
+  <div class="section">
+    <div class="section-header">
+      <div class="tag">회사 소개</div>
+      <h2>골드트리 주식회사</h2>
+      <p>단단한 뿌리, 끊임없는 성장</p>
+    </div>
+    <div class="about-intro">
+      <div class="quote">"장기적으로 성장하는 기업에 투자하며,<br><em>단단한 뿌리</em>를 갖추고 뻗어 나가는 금융 회사"</div>
+      <p>골드트리 주식회사는 단기 시장 변동에 흔들리지 않고, 수년을 내다보는 장기 투자를 원칙으로 삼습니다. 나무가 뿌리를 깊이 내릴수록 더 높이 자라듯, 견고한 기업 가치 분석을 바탕으로 꾸준한 자산 성장을 추구합니다.</p>
+    </div>
+    <div class="about-grid">
+      <div class="about-card">
+        <div class="about-card-icon">🌱</div>
+        <h3>장기 성장 철학</h3>
+        <p>5년 이상 보유를 전제로 기업의 본질 가치와 성장 가능성을 분석해 투자합니다.</p>
+      </div>
+      <div class="about-card">
+        <div class="about-card-icon">🌐</div>
+        <h3>글로벌 집중 투자</h3>
+        <p>미국 나스닥과 S&amp;P500을 중심으로 세계 최고 기업들에 집중 투자합니다.</p>
+      </div>
+      <div class="about-card">
+        <div class="about-card-icon">🏦</div>
+        <h3>법인 자산 관리</h3>
+        <p>가족 법인 구조를 활용해 세제 혜택과 효율적인 자산 이전을 동시에 실현합니다.</p>
+      </div>
+      <div class="about-card">
+        <div class="about-card-icon">🛡️</div>
+        <h3>원칙 기반 운용</h3>
+        <p>감정이 아닌 원칙에 따라 매수·매도 결정을 내리며 규율 있는 포트폴리오를 유지합니다.</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ===== 포트폴리오 ===== -->
+<div id="portfolio" class="page">
+  <div class="section">
+    <div class="section-header">
+      <div class="tag">포트폴리오 현황</div>
+      <h2>주요 해외 투자 현황</h2>
+      <p id="port-date"><!-- 날짜를 여기에 입력하세요 (예: 2025년 6월 기준) --></p>
+    </div>
+
+    <div class="notice">
+      💡 포트폴리오 수치를 업데이트하려면 이 HTML 파일을 메모장/VSCode로 열어 <strong>port-data</strong> 섹션의 숫자를 수정하세요.
+    </div>
+
+    <!-- ★ 포트폴리오 데이터 수정 구역 시작 ★
+         아래 data-pct(비중%), data-return(수익률%), data-val(평가 금액) 값만 수정하면 됩니다.
+         badge 클래스: badge-up(상승), badge-down(하락), badge-hold(보유중) -->
+    <div class="port-grid" id="port-data">
+
+      <div class="port-card" data-pct="30" data-return="+18.2" data-val="₩—">
+        <div class="port-top">
+          <div>
+            <div class="port-name">미국 주요 ETF</div>
+            <div class="port-desc">S&amp;P500 · 시장 대표 지수</div>
+          </div>
+          <span class="badge-up">+18.2%</span>
+        </div>
+        <div class="port-bar-wrap"><div class="port-bar-fill" style="width:30%"></div></div>
+        <div class="port-bottom">
+          <span class="port-meta">비중 30%</span>
+          <span class="port-val">안정 기반</span>
+        </div>
+      </div>
+
+      <div class="port-card" data-pct="25" data-return="+24.1" data-val="₩—">
+        <div class="port-top">
+          <div>
+            <div class="port-name">나스닥 100</div>
+            <div class="port-desc">QQQ · 기술주 집중 ETF</div>
+          </div>
+          <span class="badge-up">+24.1%</span>
+        </div>
+        <div class="port-bar-wrap"><div class="port-bar-fill" style="width:25%"></div></div>
+        <div class="port-bottom">
+          <span class="port-meta">비중 25%</span>
+          <span class="port-val">성장 핵심</span>
+        </div>
+      </div>
+
+      <div class="port-card" data-pct="20" data-return="+41.3" data-val="₩—">
+        <div class="port-top">
+          <div>
+            <div class="port-name">엔비디아</div>
+            <div class="port-desc">NVDA · AI 반도체 리더</div>
+          </div>
+          <span class="badge-up">+41.3%</span>
+        </div>
+        <div class="port-bar-wrap"><div class="port-bar-fill" style="width:20%"></div></div>
+        <div class="port-bottom">
+          <span class="port-meta">비중 20%</span>
+          <span class="port-val">AI 핵심주</span>
+        </div>
+      </div>
+
+      <div class="port-card" data-pct="13" data-return="+12.7" data-val="₩—">
+        <div class="port-top">
+          <div>
+            <div class="port-name">테슬라</div>
+            <div class="port-desc">TSLA · 전기차 · 에너지</div>
+          </div>
+          <span class="badge-up">+12.7%</span>
+        </div>
+        <div class="port-bar-wrap"><div class="port-bar-fill" style="width:13%"></div></div>
+        <div class="port-bottom">
+          <span class="port-meta">비중 13%</span>
+          <span class="port-val">미래 모빌리티</span>
+        </div>
+      </div>
+
+      <div class="port-card" data-pct="12" data-return="+9.4" data-val="₩—">
+        <div class="port-top">
+          <div>
+            <div class="port-name">알파벳 (구글)</div>
+            <div class="port-desc">GOOGL · 광고 · 클라우드 · AI</div>
+          </div>
+          <span class="badge-up">+9.4%</span>
+        </div>
+        <div class="port-bar-wrap"><div class="port-bar-fill" style="width:12%"></div></div>
+        <div class="port-bottom">
+          <span class="port-meta">비중 12%</span>
+          <span class="port-val">플랫폼 강자</span>
+        </div>
+      </div>
+
+      <div class="port-card port-placeholder">
+        <span>추가 편입 검토 중</span>
+      </div>
+
+    </div>
+    <!-- ★ 포트폴리오 데이터 수정 구역 끝 ★ -->
+
+    <div class="alloc-section">
+      <div class="alloc-title">자산 배분 비중</div>
+      <div class="alloc-row">
+        <span class="alloc-name">미국 ETF (S&amp;P500)</span>
+        <div class="alloc-bar-wrap"><div class="alloc-bar-fill" style="width:30%; background:#EF9F27;"></div></div>
+        <span class="alloc-pct">30%</span>
+      </div>
+      <div class="alloc-row">
+        <span class="alloc-name">나스닥 100</span>
+        <div class="alloc-bar-wrap"><div class="alloc-bar-fill" style="width:25%; background:#BA7517;"></div></div>
+        <span class="alloc-pct">25%</span>
+      </div>
+      <div class="alloc-row">
+        <span class="alloc-name">엔비디아</span>
+        <div class="alloc-bar-wrap"><div class="alloc-bar-fill" style="width:20%; background:#854F0B;"></div></div>
+        <span class="alloc-pct">20%</span>
+      </div>
+      <div class="alloc-row">
+        <span class="alloc-name">테슬라</span>
+        <div class="alloc-bar-wrap"><div class="alloc-bar-fill" style="width:13%; background:#633806;"></div></div>
+        <span class="alloc-pct">13%</span>
+      </div>
+      <div class="alloc-row">
+        <span class="alloc-name">알파벳 (구글)</span>
+        <div class="alloc-bar-wrap"><div class="alloc-bar-fill" style="width:12%; background:#412402;"></div></div>
+        <span class="alloc-pct">12%</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="footer">
+  <p>© 2025 골드트리 주식회사. 투자는 원금 손실의 위험이 있습니다.</p>
+  <p>비공개 내부 문서</p>
+</div>
+
+<script>
+  function showPage(id) {
+    document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+    document.getElementById(id).classList.add('active');
+    document.querySelectorAll('.nav-links a').forEach(a => a.classList.remove('active'));
+    const map = { home: 0, about: 1, portfolio: 2 };
+    const links = document.querySelectorAll('.nav-links a');
+    if (links[map[id]]) links[map[id]].classList.add('active');
+    window.scrollTo(0, 0);
+  }
+  // 오늘 날짜 자동 표시
+  const el = document.getElementById('port-date');
+  if (el) {
+    const d = new Date();
+    el.textContent = d.getFullYear() + '년 ' + (d.getMonth()+1) + '월 기준 운용 포트폴리오';
+  }
+</script>
+</body>
+</html>
